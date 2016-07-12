@@ -66,6 +66,16 @@ def setup_platform(hass, config, add_devices_callback, discovery_info=None):
             sensors = rfxtrx.RFX_DEVICES[device_id]
             for key in sensors:
                 sensors[key].event = event
+            # Fire event
+            if sensors.should_fire_event:
+                sensors.hass.bus.fire(
+                    "signal_received", {
+                        ATTR_ENTITY_ID:
+                            sensors.entity_id,
+                        ATTR_STATE: event.values.lower()
+                    }
+                )
+
             return
 
         # Add entity if not exist and the automatic_add is True
