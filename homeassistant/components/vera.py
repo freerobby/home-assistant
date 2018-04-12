@@ -33,6 +33,8 @@ VERA_ID_FORMAT = '{}_{}'
 
 ATTR_CURRENT_POWER_W = "current_power_w"
 ATTR_CURRENT_ENERGY_KWH = "current_energy_kwh"
+ATTR_CURRENT_VOLTAGE_V = "current_voltage_v"
+ATTR_CURRENT_AMPERAGE_A = "current_amperage_a"
 
 VERA_DEVICES = 'vera_devices'
 VERA_SCENES = 'vera_scenes'
@@ -194,6 +196,14 @@ class VeraDevice(Entity):
         energy = self.vera_device.energy
         if energy:
             attr[ATTR_CURRENT_ENERGY_KWH] = convert(energy, float, 0.0)
+            
+        volts = self.vera_device.volts
+        if volts:
+            attr[ATTR_CURRENT_VOLTAGE_V] = convert(volts, float, 0.0)
+            
+        amps = self.vera_device.amps
+        if amps:
+            attr[ATTR_CURRENT_AMPERAGE_A] = convert(amps, float, 0.0)
 
         attr['Vera Device Id'] = self.vera_device.vera_device_id
 
